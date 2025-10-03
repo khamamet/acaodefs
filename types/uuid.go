@@ -14,6 +14,15 @@ type UUID struct {
 func NewUUID() UUID {
 	return UUID{uuidv7.Generate()}
 }
+
+func ParseOrZeroUUID(s string) UUID {
+	parsed, err := uuidv7.Parse(s)
+	if err != nil {
+		return ZeroUUID()
+	}
+	return UUID{parsed}
+}
+
 func ParseUUID(s string) (UUID, error) {
 	parsed, err := uuidv7.Parse(s)
 	if err != nil {
@@ -28,9 +37,11 @@ func ZeroUUID() UUID {
 	}
 	return NewUUID()
 }
+
 func (u UUID) String() string {
 	return u.UUID.String()
 }
+
 func (u *UUID) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
