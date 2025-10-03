@@ -1,4 +1,5 @@
-module acaodefs
+module github.com/khamamet/acaodefs
+
 
 go 1.25.1
 
