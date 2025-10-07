@@ -58,3 +58,16 @@ func (u *UUID) UnmarshalGQL(v interface{}) error {
 func (u UUID) MarshalGQL(w io.Writer) {
 	fmt.Fprintf(w, `"%s"`, u.UUID.String())
 }
+
+func (u UUID) MarshalText() ([]byte, error) {
+	return []byte(u.UUID.String()), nil
+}
+
+func (u *UUID) UnmarshalText(text []byte) error {
+	parsed, err := uuidv7.Parse(string(text))
+	if err != nil {
+		return err
+	}
+	u.UUID = parsed
+	return nil
+}
